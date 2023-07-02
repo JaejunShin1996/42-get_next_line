@@ -14,31 +14,35 @@ void    ft_putstr_fd(char *s, int fd)
     }
 }
 
-void    ft_putnbr_fd(int n, int fd)
+void    *ft_memset(void *str, int c, size_t n)
 {
-    unsigned int	i;
-
-	i = n;
-	if (n < 0)
-	{
-		ft_putchar_fd('-', fd);
-		i = n * -1;
-	}
-	if (9 < i)
-	{
-		ft_putnbr_fd(i / 10, fd);
-	}
-	ft_putchar_fd(i % 10 + '0', fd);
+    size_t          i;
+    unsigned char   *temp;
+    
+    i = 0;
+    temp = (unsigned char *)str;
+    while (i < n)
+    {
+        temp[i] = c;
+        i++;
+    }
+    return (str);
 }
 
-void    ft_putendl_fd(char *s, int fd)
+void    ft_bzero(void *str, size_t n)
 {
-    while (*s)
-    {
-        ft_putchar_fd(*s, fd);
-        s++;
-    }
-    ft_putchar_fd('\n', fd);
+    ft_memset(str, 0, n);
+}
+
+void    *ft_calloc(size_t nitems, size_t size)
+{
+    void    *result;
+ 
+    result = malloc(nitems * size);
+    if (result == NULL)
+        return (NULL);
+    ft_bzero(result, nitems * size);
+    return (result);
 }
 
 int read_fd(char *file_name)
