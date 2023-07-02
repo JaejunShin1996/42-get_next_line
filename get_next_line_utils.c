@@ -89,3 +89,16 @@ char    *ft_strjoin(char const *str1, char const *str2)
     result[i + j] = '\0';
     return (result);
 }
+
+char    *ft_strchr(const char *str, int c)
+{
+    while (*str)
+    {
+        if (*str == c)
+            return ((char *)str);
+        str++;
+    }
+    if (*str == c)
+        return ((char *)str);
+    return (NULL);
+}
