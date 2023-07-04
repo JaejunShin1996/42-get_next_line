@@ -9,7 +9,6 @@ int main(void)
     while ((one_line = get_next_line(fd)))
     {
         ft_putstr_fd(one_line, 1);
-        ft_putstr_fd("--------", 1);
     }
     return (0);
 }
