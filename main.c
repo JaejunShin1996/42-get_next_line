@@ -8,7 +8,7 @@ int main(void)
     fd = read_fd("text.txt");
     while ((one_line = get_next_line(fd)))
     {
-        ft_putstr_fd(one_line, 1);
+        printf("%s", one_line);
     }
     return (0);
 }

@@ -16,7 +16,7 @@ char    *get_chunk_strings(int fd, char *buffer)
 
     if (!buffer)
         buffer = ft_calloc(1, 1);
-    temp = (char *)ft_calloc(BUFFER_SIZE + 10, sizeof(char));
+    temp = (char *)ft_calloc(BUFFER_SIZE + 1, sizeof(char));
     read_size = 1;
     while (read_size > 0)
     {
@@ -44,15 +44,16 @@ char    *get_return_line(char * dest, char *chunk)
         return (NULL);
     while (chunk[i] && chunk[i] != '\n')
         i++;
-    dest = (char *)ft_calloc(i + 2, sizeof(char));
+    dest = (char *)ft_calloc(i + 1, sizeof(char));
     i = 0;
     while (chunk[i] && chunk[i] != '\n')
     {
         dest[i] = chunk[i];
         i++;
     }
-    dest[i] = '\n';
-    dest[i++] = '\0';
+    if (chunk[i] == '\n')
+        dest[i++] = '\n';
+    dest[i] = '\0';
     return (dest);
 }
 
@@ -61,7 +62,7 @@ char    *get_ready_for_next(char *chunk)
     char    *result;
     int     i;
     int     j;
-    
+
     i = 0;
     j = 0;
     while (chunk[i] && chunk[i] != '\n')
@@ -70,7 +71,7 @@ char    *get_ready_for_next(char *chunk)
     i++;
     while (chunk[i])
         result[j++] = chunk[i++];
-    result[j++] = '\0';
+    result[j] = '\0';
     free(chunk);
     return (result);
 }
@@ -88,6 +89,5 @@ char    *get_next_line(int fd)
     line = get_return_line(line, buffer);
     // buffer to be prepared for the next.
     buffer = get_ready_for_next(buffer);
-    // printf("-------%s", buffer);
     return (line);
 }
