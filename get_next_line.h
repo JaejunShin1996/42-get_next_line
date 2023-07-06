@@ -19,7 +19,5 @@ int     read_fd(char *file_name);
 char    *ft_strjoin(char const *str1, char const *str2);
 size_t  ft_strlen(const char *str);
 char    *ft_strchr(const char *str, int c);
-size_t  ft_strlcpy(char *dst, const char *src, size_t size);
-char    *ft_strdup(const char *str);
 
 #endif

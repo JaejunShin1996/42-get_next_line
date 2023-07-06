@@ -14,12 +14,14 @@ char    *get_chunk_strings(int fd, char *buffer)
     char    *temp;
     int     read_size;
 
+    // First buffer is empty.
     if (!buffer)
-        buffer = ft_calloc(1, 1);
+        buffer = ft_calloc(1, sizeof(char));
     temp = (char *)ft_calloc(BUFFER_SIZE + 1, sizeof(char));
     read_size = 1;
     while (read_size > 0)
     {
+        // reads the file using size given.
         read_size = read(fd, temp, BUFFER_SIZE);
         if (read_size == -1)
         {
@@ -28,6 +30,7 @@ char    *get_chunk_strings(int fd, char *buffer)
         }
         temp[read_size] = '\0';
         buffer = join_free(buffer, temp);
+        // if it contains a new line, then break.
         if (ft_strchr(buffer, '\n'))
             break;
     }
@@ -35,26 +38,29 @@ char    *get_chunk_strings(int fd, char *buffer)
     return (buffer);
 }
 
-char    *get_return_line(char * dest, char *chunk)
+char    *get_return_line(char *chunk)
 {
+    char    *result;
     size_t  i;
 
     i = 0;
-    if (!(*chunk))
+    if (!chunk[i])
         return (NULL);
+    // size of line upto new line.
     while (chunk[i] && chunk[i] != '\n')
         i++;
-    dest = (char *)ft_calloc(i + 1, sizeof(char));
+    // allocates the memory based on the size.
+    result = (char *)ft_calloc(i + 2, sizeof(char));
     i = 0;
+    // copies the value.
     while (chunk[i] && chunk[i] != '\n')
     {
-        dest[i] = chunk[i];
+        result[i] = chunk[i];
         i++;
     }
-    if (chunk[i] == '\n')
-        dest[i++] = '\n';
-    dest[i] = '\0';
-    return (dest);
+    if (chunk[i] && chunk[i] == '\n')
+        result[i] = '\n';
+    return (result);
 }
 
 char    *get_ready_for_next(char *chunk)
@@ -65,8 +71,15 @@ char    *get_ready_for_next(char *chunk)
 
     i = 0;
     j = 0;
+    // size upto new line.
     while (chunk[i] && chunk[i] != '\n')
         i++;
+    if (!chunk[i])
+    {
+        free(chunk);
+        return (NULL);
+    }
+    // allocates the size and copies the rest of the chunk.
     result = (char *)ft_calloc(ft_strlen(chunk) - i + 1, sizeof(char));
     i++;
     while (chunk[i])
@@ -83,11 +96,11 @@ char    *get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 		return (NULL);
+    // gets a chunk of strings that contains new line.
     buffer = get_chunk_strings(fd, buffer);
-    line = (char *)ft_calloc(1, sizeof(char));
-    // line to be returned.
-    line = get_return_line(line, buffer);
-    // buffer to be prepared for the next.
+    // gets a line including the new line from the chunk.
+    line = get_return_line(buffer);
+    // saves the rest of the chunk excluding the line to be returned.
     buffer = get_ready_for_next(buffer);
     return (line);
 }
