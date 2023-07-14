@@ -6,7 +6,7 @@
 /*   By: jaeshin <jaeshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 16:02:38 by jaeshin           #+#    #+#             */
-/*   Updated: 2023/07/12 16:53:39 by jaeshin          ###   ########.fr       */
+/*   Updated: 2023/07/14 10:42:02 by jaeshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ char	*get_return_line(char *chunk)
 	}
 	if (chunk[i] && chunk[i] == '\n')
 		result[i] = '\n';
+	result[i + 1] = '\0';
 	return (result);
 }
 
