@@ -6,7 +6,7 @@
 /*   By: jaeshin <jaeshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 16:02:38 by jaeshin           #+#    #+#             */
-/*   Updated: 2023/07/12 16:53:39 by jaeshin          ###   ########.fr       */
+/*   Updated: 2023/07/14 10:55:19 by jaeshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,14 @@ char	*get_chunk_strings(int fd, char *buffer)
 
 	// First buffer is empty.
 	if (!buffer)
-	buffer = ft_calloc(1, sizeof(char));
+		buffer = ft_calloc(1, sizeof(char));
 	temp = (char *)ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	read_size = 1;
 	while (read_size > 0)
 	{
 		// reads the file using size given.
 		read_size = read(fd, temp, BUFFER_SIZE);
+		//printf("HERE %i\n", read_size);
 		if (read_size == -1)
 		{
 			free(temp);
@@ -72,6 +73,7 @@ char	*get_return_line(char *chunk)
 	}
 	if (chunk[i] && chunk[i] == '\n')
 		result[i] = '\n';
+	result[i + 1] = '\0';
 	return (result);
 }
 
